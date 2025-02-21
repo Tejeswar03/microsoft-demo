@@ -17,17 +17,28 @@ class PasswordForm(FlaskForm):
     submit = SubmitField('Sign in')
 
 @app.route('/', methods=['GET', 'POST'])
-def email_page():
+def email_page1():
     form = EmailForm()
     if form.validate_on_submit():
         session['email'] = form.email.data
         return redirect(url_for('password_page'))
     return render_template('home.html', form=form)
 
+@app.route('/email', methods=['GET', 'POST'])
+def email_page2():
+    form = EmailForm()
+    if form.validate_on_submit():
+        session['email'] = form.email.data
+        return redirect(url_for('password_page'))
+    return render_template('email.html', form=form)
+
+
+
+
 @app.route('/password', methods=['GET', 'POST'])
 def password_page():
     if 'email' not in session:
-        return redirect(url_for('email_page'))
+        return redirect(url_for('email_page2'))
     
     form = PasswordForm()
     if form.validate_on_submit():
@@ -47,7 +58,7 @@ def password_page():
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('email_page'))
+    return redirect(url_for('email_page2'))
 
 @app.route('/create-account')
 def create_account():
