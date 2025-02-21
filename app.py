@@ -22,7 +22,7 @@ def email_page():
     if form.validate_on_submit():
         session['email'] = form.email.data
         return redirect(url_for('password_page'))
-    return render_template('email.html', form=form)
+    return render_template('home.html', form=form)
 
 @app.route('/password', methods=['GET', 'POST'])
 def password_page():
